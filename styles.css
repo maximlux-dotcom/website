@@ -1403,5 +1403,80 @@ body::after{ right:0; transform:scaleX(-1); }
 }
 
 
+/* =========================================
+   COMMUNITY / TELEGRAM BLOCK
+========================================= */
 
+.community-block{
+  margin-top:40px;
+  padding:30px 15px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  color:var(--muted);
+}
+
+
+
+
+
+/* telegram icon */
+
+.tg-icon{
+  font-size:24px;
+}
+
+
+/* about text */
+
+.community-about{
+  max-width:520px;
+  margin:auto;
+  font-size:14px;
+}
+
+
+/* footer */
+
+.community-footer{
+  margin-top:20px;
+  font-size:12px;
+  opacity:.6;
+}
+
+
+/* =========================================
+   TELEGRAM FLOATING ICON (minimal)
+========================================= */
+
+.tg-fab{
+  position:fixed;
+  left:18px;
+  bottom:18px;
+
+  width:50px;
+  height:50px;
+
+  border-radius:50%;
+
+  background:#2AABEE; /* telegram blue */
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+  transition:.2s;
+
+  z-index:1000;
+}
+
+.tg-fab:hover{
+  transform:scale(1.1);
+  box-shadow:0 14px 30px rgba(0,0,0,.35);
+}
+
+.tg-fab:active{
+  transform:scale(.95);
+}
 

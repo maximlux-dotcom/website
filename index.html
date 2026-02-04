@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Открытое мнение — Город говорит</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<button id="scrollTopBtn" class="scroll-top">↑</button>
+
+<!-- image viewer modal -->
+<div id="imgModal" class="img-modal hidden">
+  <span class="img-close">✕</span>
+  <img id="imgModalPic">
+</div>
+
+
+
+<body>
+
+  <div id="app" class="app">
+    <!-- Initial name screen -->
+    <div id="welcome-screen" class="welcome-screen">
+      <div class="welcome-card">
+        <h1>Открытое мнение</h1>
+        <p class="subtitle">
+          Анонимный городской сервис для жителей Чебоксар. Делитесь проблемами, идеями и мнением о своём городе.
+        </p>
+        <form id="welcome-form" class="welcome-form">
+          <label for="displayName">Ваш псевдоним (имя, которое будут видеть другие):</label>
+          <input id="displayName" name="displayName" type="text" required minlength="2" maxlength="24"
+            placeholder="Например: Чебоксарец_01" />
+          <button type="submit">Войти на сайт</button>
+        </form>
+        <p class="small-note">
+          Мы не собираем ваши реальные данные. На сайте вы анонимны, другие видят только выбранный псевдоним.
+        </p>
+      </div>
+    </div>
+
+    <!-- Main layout -->
+    <div id="main-layout" class="main-layout hidden">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="logo">
+            <span class="logo-mark">Город говорит</span>
+            <span class="logo-sub">Открытое мнение · Чебоксары</span>
+          </div>
+        </div>
+        <div class="topbar-center">
+          <nav class="nav-tabs">
+            <button class="nav-tab active" data-view="feed">Лента</button>
+            <button class="nav-tab" data-view="messages">Личные сообщения</button>
+            <button class="nav-tab" data-view="profile">Мой профиль</button>
+            <button class="nav-tab" data-view="admin">Вход</button>
+          </nav>
+        </div>
+        <div class="topbar-right">
+          <div class="theme-toggle">
+            <span>Тема</span>
+            <button id="theme-toggle-btn" aria-label="Переключить тему"></button>
+          </div>
+          <div class="current-user">
+            <span id="current-username"></span>
+          </div>
+          <button id="logout-btn" class="link-button logout-link">Выйти</button>
+        </div>
+      </header>
+
+  
+
+      <main class="content">
+        <!-- Left column: post form + feed -->
+        <section id="view-feed" class="view view-active">
+          <div class="layout-two-columns">
+            <div class="col-main">
+              <div class="card post-form-card">
+                <h2>Поделиться проблемой или идеей</h2>
+                <p class="hint">
+                  Сейчас сервис работает только для города <strong>Чебоксары</strong> (Чувашская Республика).
+                </p>
+                <form id="post-form" class="post-form">
+                  <textarea id="post-text" required maxlength="1000"
+                    placeholder="Опишите проблему, идею или своё мнение о городе..."></textarea>
+                  <div class="post-form-footer">
+                    <div class="post-form-left">
+                      <label class="file-input-label">
+                        Прикрепить фото (необязательно)
+                        <input id="post-image" type="file" accept="image/*" />
+                      </label>
+                      <span id="post-image-name" class="file-name"></span>
+                    </div>
+                    <div class="post-form-right">
+                      <select id="post-category">
+                        <option value="problem">Проблема</option>
+                        <option value="idea">Идея / предложение</option>
+                        <option value="praise">Благодарность</option>
+                        <option value="other">Другое</option>
+                      </select>
+                      <button type="submit">Опубликовать</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+     
+
+                <div class="card feed-filters">
+                  <div class="feed-filters-left">
+                    <button class="chip chip-active" data-sort="new">Новые</button>
+                    <button class="chip" data-sort="top">Популярные</button>
+                    <button class="chip" data-sort="discussed">Обсуждаемые</button>
+                  </div>
+                  <div class="feed-filters-right">
+                    <span class="filter-label">Фильтр:</span>
+                    <select id="feed-category-filter">
+                      <option value="all">Все</option>
+                      <option value="problem">Проблемы</option>
+                      <option value="idea">Идеи</option>
+                      <option value="praise">Благодарности</option>
+                      <option value="other">Другое</option>
+                    </select>
+                  </div>
+                
+
+                </div>
+                <div id="feed-list" class="feed-list">
+                  <!-- Posts will be rendered here -->
+                </div>
+            </div>
+
+            <aside class="col-side">
+              <div class="card info-card">
+                <h3>Как работает «Город говорит»</h3>
+                <ul>
+                  <li>Анонимно рассказывайте о проблемах города и предлагайте решения.</li>
+                  <li>Прикрепляйте фото, чтобы наглядно показать ситуацию.</li>
+                  <li>Люди из Чебоксар видят ваши посты, ставят лайки/дизлайки и оставляют комментарии.</li>
+                  <li>Каждый пост попадает в закрытый раздел для администратора, который передаёт информацию
+                    ответственным структурам.</li>
+                </ul>
+              </div>
+
+              <div class="card monetize-card">
+                <h3>Партнёрские размещения</h3>
+                <div id="ads-public-list" class="ads-public-list">
+                  <!-- Ads visible to everyone will be rendered here -->
+                </div>
+              </div>
+
+              <div class="card support-card">
+                <h3>Поддержать проект</h3>
+                <p>
+                  Проект «Открытое мнение» создаётся как общественный сервис. В будущем здесь может появиться подписка
+                  без рекламы и
+                  дополнительные функции для активистов.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- Messages view -->
+        <section id="view-messages" class="view">
+          <div class="layout-two-columns">
+            <div class="col-main">
+              <div class="card">
+                <h2>Личные сообщения</h2>
+                <div class="messages-layout">
+                  <div class="conversations-list" id="conversations-list">
+                    <!-- Conversations will be rendered here -->
+                  </div>
+                  <div class="conversation-panel">
+                    <div id="conversation-header" class="conversation-header">
+                      <span id="conversation-with">Выберите диалог слева</span>
+                    </div>
+                    <div id="conversation-messages" class="conversation-messages">
+                      <!-- Messages will be rendered here -->
+                    </div>
+                    <form id="conversation-form" class="conversation-form hidden">
+                      <input id="conversation-input" type="text" placeholder="Написать сообщение..."
+                        autocomplete="off" />
+                      <button type="submit">Отправить</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <aside class="col-side">
+              <div class="card info-card">
+                <h3>Анонимные диалоги</h3>
+                <p>
+                  Вы можете связаться с автором поста через личные сообщения. Другие пользователи не увидят ваши
+                  диалоги.
+                  В профиле каждого автора есть кнопка «Написать лично».
+                </p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- Profile view -->
+        <section id="view-profile" class="view">
+          <div class="layout-two-columns">
+            <div class="col-main">
+              <div class="card">
+                <h2>Мой профиль</h2>
+                <p class="profile-username-label">Ваш псевдоним:</p>
+                <div class="profile-username-row">
+                  <span id="profile-username" class="profile-username"></span>
+                  <button id="change-name-btn" class="link-button">Сменить псевдоним</button>
+                </div>
+                <p class="hint">
+                  На сайте вы остаетесь анонимным, но другие видят выбранный псевдоним и ваши опубликованные посты.
+                </p>
+              </div>
+
+              <div class="card">
+                <h3>Мои публикации</h3>
+                <div id="my-posts-list" class="feed-list">
+                  <!-- User posts -->
+                </div>
+              </div>
+            </div>
+            <aside class="col-side">
+              <div class="card info-card">
+                <h3>Настройка вида</h3>
+                <p>
+                  Вы можете переключать светлую и тёмную тему вверху сайта. В будущем здесь могут появиться
+                  дополнительные
+                  настройки профиля.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- Admin view -->
+        <section id="view-admin" class="view">
+          <div class="layout-two-columns">
+            <div class="col-main">
+              <div id="admin-login-card" class="card">
+                <h2>Вход</h2>
+                <p class="hint">
+                  Доступ только для администратора сервиса. Используется для передачи проблем в городские службы.
+                </p>
+                <form id="admin-login-form" class="admin-login-form">
+                  <label for="admin-name">Имя для входа</label>
+                  <input id="admin-name" type="text" placeholder="Имя" required />
+                  <label for="admin-password">Пароль</label>
+                  <input id="admin-password" type="password" placeholder="Пароль" required />
+                  <button type="submit">Войти</button>
+                </form>
+              </div>
+
+              <div id="admin-panel-card" class="card hidden">
+                <div class="admin-header">
+                  <h2>Панель администратора</h2>
+                  <button id="admin-logout-btn" class="link-button">Выйти</button>
+                </div>
+                <p class="hint">
+                  Каждый опубликованный пост попадает сюда как обращение. Отмечайте обработанные и экспортируйте их для
+                  передачи в
+                  администрации города.
+                </p>
+                <div id="admin-inbox" class="admin-inbox">
+                  <!-- Admin messages -->
+                </div>
+
+                <div class="admin-ads-section">
+                  <h3>Партнёрское размещение</h3>
+                  <p class="hint">
+                    Управляйте рекламными блоками сервиса. Реклама будет показываться всем пользователям в блоке
+                    «Партнёрские
+                    размещения» на главной странице.
+                  </p>
+                  <form id="admin-ad-form" class="admin-ad-form">
+                    <input id="admin-ad-title" type="text"
+                      placeholder="Заголовок рекламы (например, «Сервис доставки еды»)" required />
+                    <textarea id="admin-ad-text" rows="2" placeholder="Краткое описание или оффер" required></textarea>
+                    <input id="admin-ad-link" type="text" placeholder="Ссылка (необязательно)" />
+                    <button type="submit">Добавить рекламу</button>
+                  </form>
+                  <div id="admin-ads-list" class="admin-ads-list">
+                    <!-- Admin-managed ads will be listed here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <aside class="col-side">
+              <div class="card info-card">
+                <h3>Информация для администрации</h3>
+                <p>
+                  Система «Город говорит» собирает реальные обращения горожан по проблемам Чебоксар. Используйте эту
+                  панель, чтобы
+                  структурировать запросы, формировать отчёты и вовремя передавать их ответственным структурам.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+<link rel="stylesheet" href="styles.css">
+
+<div class="particles">
+  <span style="left:10%"></span>
+  <span style="left:35%"></span>
+  <span style="left:60%"></span>
+  <span style="left:85%"></span>
+</div>
+
+<!-- floating background -->
+<div class="floating-bg">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- chuvash ornament -->
+<div class="ornament-bg"></div>
+
+
+</html>

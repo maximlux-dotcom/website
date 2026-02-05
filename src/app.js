@@ -11,6 +11,8 @@ const STORAGE_KEYS = {
   ADS: "og_ads",
 };
 
+
+
 const ADMIN_CREDENTIALS = {
   name: "Admin",
   password: "Bruk12345678",
@@ -44,6 +46,10 @@ function loadState() {
   state.usedNames = new Set(usedNamesRaw ? JSON.parse(usedNamesRaw) : []);
   state.ads = adsRaw ? JSON.parse(adsRaw) : [];
   state.isAdmin = admin;
+}
+
+function openTelegram() {
+  window.open("https://t.me/+ZGrGm0hea8RiMTIy", "_blank");
 }
 
 function savePosts() {
@@ -139,7 +145,6 @@ function renderAll() {
   renderMyPosts();
   renderConversationsList();
   renderAdmin();
-  renderPublicAds();
 }
 
 function updateUserUI() {
@@ -727,7 +732,6 @@ function renderAdmin() {
             state.ads = state.ads.filter((a) => a.id !== ad.id);
             saveAds();
             renderAdmin();
-            renderPublicAds();
           });
 
           controls.appendChild(del);
@@ -801,16 +805,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateUserUI();
     renderAll();
   });
-
-  // Theme toggle
-  const themeBtn = document.getElementById("theme-toggle-btn");
-  themeBtn.addEventListener("click", () => {
-    const current = document.documentElement.getAttribute("data-theme") || "dark";
-    const next = current === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
-    saveTheme(next);
-  });
-
   // Logout (user)
   const logoutBtn = document.getElementById("logout-btn");
   if (logoutBtn) {
@@ -992,7 +986,6 @@ document.addEventListener("DOMContentLoaded", () => {
       textInput.value = "";
       linkInput.value = "";
       renderAdmin();
-      renderPublicAds();
     });
   }
 
@@ -1007,8 +1000,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* ripple on all buttons */
 
-document.querySelectorAll("button").forEach(b=>{
-  b.classList.add("ripple");
+document.addEventListener("click", e => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  btn.classList.add("ripple");
 });
 
 
@@ -1076,26 +1071,25 @@ renderFeed = function(){
 /* ========= EMOJI BURST ON REACTION ========= */
 
 document.addEventListener("click",e=>{
-  if(!e.target.classList.contains("reaction")) return;
+  if (!e.target.closest(".action-like, .action-dislike")) return;
+  const target = e.target.closest("button");
+  target.textContent="✨";
+  target.style.position="absolute";
+  target.style.pointerEvents="none";
+  target.style.fontSize="18px";
 
-  const burst=document.createElement("span");
-  burst.textContent="✨";
-  burst.style.position="absolute";
-  burst.style.pointerEvents="none";
-  burst.style.fontSize="18px";
+  const rect = target.getBoundingClientRect();
+  target.style.left=rect.left+"px";
+  target.style.top=rect.top+"px";
 
-  const rect=e.target.getBoundingClientRect();
-  burst.style.left=rect.left+"px";
-  burst.style.top=rect.top+"px";
+  document.body.appendChild(target);
 
-  document.body.appendChild(burst);
-
-  burst.animate([
+  target.animate([
     {transform:"translateY(0)",opacity:1},
     {transform:"translateY(-30px)",opacity:0}
   ],{duration:600});
 
-  setTimeout(()=>burst.remove(),600);
+  setTimeout(()=>target.remove(),600);
 });
 
 

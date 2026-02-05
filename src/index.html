@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 
+
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,17 +10,15 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<button id="scrollTopBtn" class="scroll-top">↑</button>
-
-<!-- image viewer modal -->
-<div id="imgModal" class="img-modal hidden">
-  <span class="img-close">✕</span>
-  <img id="imgModalPic">
-</div>
-
-
-
 <body>
+
+  <button id="scrollTopBtn" class="scroll-top">↑</button>
+
+  <!-- image viewer modal -->
+  <div id="imgModal" class="img-modal hidden">
+    <span class="img-close">✕</span>
+    <img id="imgModalPic">
+  </div>
 
   <div id="app" class="app">
     <!-- Initial name screen -->
@@ -60,7 +60,7 @@
         <div class="topbar-right">
           <div class="theme-toggle">
             <span>Тема</span>
-            <button id="theme-toggle-btn" aria-label="Переключить тему"></button>
+            <button id="theme-toggle" aria-label="Переключить тему"></button>
           </div>
           <div class="current-user">
             <span id="current-username"></span>
@@ -69,7 +69,7 @@
         </div>
       </header>
 
-  
+
 
       <main class="content">
         <!-- Left column: post form + feed -->
@@ -82,8 +82,10 @@
                   Сейчас сервис работает только для города <strong>Чебоксары</strong> (Чувашская Республика).
                 </p>
                 <form id="post-form" class="post-form">
-                  <textarea id="post-text" required maxlength="1000"
-                    placeholder="Опишите проблему, идею или своё мнение о городе..."></textarea>
+                  <label for="post-text" class="visually-hidden">
+                      текст публикации
+                  </label><textarea id="post-text" required maxlength="1000"
+                                                           placeholder="Опишите проблему, идею или своё мнение о городе..."></textarea>
                   <div class="post-form-footer">
                     <div class="post-form-left">
                       <label class="file-input-label">
@@ -93,7 +95,7 @@
                       <span id="post-image-name" class="file-name"></span>
                     </div>
                     <div class="post-form-right">
-                      <select id="post-category">
+                      <label for="post-category"></label><select id="post-category">
                         <option value="problem">Проблема</option>
                         <option value="idea">Идея / предложение</option>
                         <option value="praise">Благодарность</option>
@@ -105,7 +107,7 @@
                 </form>
               </div>
 
-     
+
 
                 <div class="card feed-filters">
                   <div class="feed-filters-left">
@@ -115,7 +117,7 @@
                   </div>
                   <div class="feed-filters-right">
                     <span class="filter-label">Фильтр:</span>
-                    <select id="feed-category-filter">
+                    <label for="feed-category-filter"></label><select id="feed-category-filter">
                       <option value="all">Все</option>
                       <option value="problem">Проблемы</option>
                       <option value="idea">Идеи</option>
@@ -123,14 +125,13 @@
                       <option value="other">Другое</option>
                     </select>
                   </div>
-                
+
 
                 </div>
                 <div id="feed-list" class="feed-list">
                   <!-- Posts will be rendered here -->
                 </div>
-                <div id="feed-list"></div>
-        
+
         <!-- bottom community block -->
 <section class="community-block">
 
@@ -146,7 +147,7 @@
     <p>
       Проект создан для жителей Чебоксар и всей Чувашии.
       Вместе мы делаем город удобнее, безопаснее и современнее.
-      🇷🇺 
+      🇷🇺
     </p>
   </div>
 
@@ -207,8 +208,8 @@
                       <!-- Messages will be rendered here -->
                     </div>
                     <form id="conversation-form" class="conversation-form hidden">
-                      <input id="conversation-input" type="text" placeholder="Написать сообщение..."
-                        autocomplete="off" />
+                      <label for="conversation-input"></label><input id="conversation-input" type="text" placeholder="Написать сообщение..."
+                                                                     autocomplete="off" />
                       <button type="submit">Отправить</button>
                     </form>
                   </div>
@@ -304,10 +305,10 @@
                     размещения» на главной странице.
                   </p>
                   <form id="admin-ad-form" class="admin-ad-form">
-                    <input id="admin-ad-title" type="text"
-                      placeholder="Заголовок рекламы (например, «Сервис доставки еды»)" required />
-                    <textarea id="admin-ad-text" rows="2" placeholder="Краткое описание или оффер" required></textarea>
-                    <input id="admin-ad-link" type="text" placeholder="Ссылка (необязательно)" />
+                    <label for="admin-ad-title"></label><input id="admin-ad-title" type="text"
+                                                               placeholder="Заголовок рекламы (например, «Сервис доставки еды»)" required />
+                    <label for="admin-ad-text"></label><textarea id="admin-ad-text" rows="2" placeholder="Краткое описание или оффер" required></textarea>
+                    <label for="admin-ad-link"></label><input id="admin-ad-link" type="text" placeholder="Ссылка (необязательно)" />
                     <button type="submit">Добавить рекламу</button>
                   </form>
                   <div id="admin-ads-list" class="admin-ads-list">
@@ -335,35 +336,33 @@
 
 
 
-  <script src="app.js"></script>
 
   <a href="https://t.me/+ZGrGm0hea8RiMTIy" target="_blank" class="tg-fab" title="Telegram чат">
-  <svg viewBox="0 0 24 24" width="22" height="22">
-    <path fill="white"
+    <svg viewBox="0 0 24 24" width="22" height="22">
+      <path fill="white"
       d="M9.04 15.47 8.9 19.5c.31 0 .45-.13.61-.29l2.92-2.8 6.05 4.42c1.11.61 1.9.29 2.18-1.03l3.95-18.47.01-.01c.33-1.53-.55-2.13-1.63-1.73L1.56 9.27C.09 9.86.11 10.7 1.3 11.07l5.9 1.84 13.7-8.64c.64-.4 1.22-.18.74.22"/>
-  </svg>
-</a>
+    </svg>
+  </a>
+  <div class="particles">
+    <span style="left:10%"></span>
+    <span style="left:35%"></span>
+    <span style="left:60%"></span>
+    <span style="left:85%"></span>
+  </div>
 
+  <!-- floating background -->
+  <div class="floating-bg">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- chuvash ornament -->
+  <div class="ornament-bg"></div>
+
+  <script src="app.js"></script>
 </body>
 
-<link rel="stylesheet" href="styles.css">
-
-<div class="particles">
-  <span style="left:10%"></span>
-  <span style="left:35%"></span>
-  <span style="left:60%"></span>
-  <span style="left:85%"></span>
-</div>
-
-<!-- floating background -->
-<div class="floating-bg">
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
-
-<!-- chuvash ornament -->
-<div class="ornament-bg"></div>
 
 
 </html>
